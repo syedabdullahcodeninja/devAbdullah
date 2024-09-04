@@ -6,4 +6,5 @@ export interface User {
   isDisabled: boolean;
   createdDate: Date;
   updatedDate: Date;
+  
 }
