@@ -40,4 +40,3 @@ Before you begin, make sure you have the following installed:
    Install Express.js and the necessary type definitions:
 
    `npm install express && npm install @types/express --save-dev`
-
