@@ -32,5 +32,8 @@
   },
   "dependencies": {
     "express": "^4.19.2"
+  },
+  "lint-staged":{
+    "*.{ts,js}": "eslint --fix"
   }
 }
