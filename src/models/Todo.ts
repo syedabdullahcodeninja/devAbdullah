@@ -5,4 +5,6 @@ export interface Todo {
   isCompleted: boolean;
   createdDate: Date;
   updatedDate: Date;
+
+  
 }
