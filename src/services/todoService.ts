@@ -35,12 +35,15 @@ export class TodoService {
         }, 100);
       });
     } catch (error) {
-      console.error('Error fetching todos by user ID:', error);
-      throw new Error('Failed to fetch todos by user ID');
+      console.error("Error fetching todos by user ID:", error);
+      throw new Error("Failed to fetch todos by user ID");
     }
   }
 
-  async getTodoByUserId(userId: number, todoId: number): Promise<Todo | undefined> {
+  async getTodoByUserId(
+    userId: number,
+    todoId: number
+  ): Promise<Todo | undefined> {
     try {
       return new Promise((resolve) => {
         setTimeout(() => {
@@ -51,11 +54,11 @@ export class TodoService {
         }, 100);
       });
     } catch (error) {
-      console.error('Error fetching todo by user ID:', error);
-      throw new Error('Failed to fetch todo by user ID');
+      console.error("Error fetching todo by user ID:", error);
+      throw new Error("Failed to fetch todo by user ID");
     }
   }
-  
+
   async getTodoById(id: number): Promise<Todo | undefined> {
     try {
       return new Promise((resolve) => {
@@ -65,8 +68,8 @@ export class TodoService {
         }, 100);
       });
     } catch (error) {
-      console.error('Error fetching todo by ID:', error);
-      throw new Error('Failed to fetch todo by ID');
+      console.error("Error fetching todo by ID:", error);
+      throw new Error("Failed to fetch todo by ID");
     }
   }
   async createTodo(todo: Todo): Promise<Todo> {
