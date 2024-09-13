@@ -2,32 +2,38 @@ import { Router } from "express";
 import { UserController } from "../controllers/userController";
 import { UserService } from "../services/userService";
 import { TodoService } from "../services/todoService";
+import { 
+    validateCreateUser, 
+    validateUpdateUser, 
+    validatePatchUser 
+} from '../middleware/validateUser';
+import { 
+
+    validateQueryParams
+    
+} from '../middleware/validateQueryParams';
+
 
 const router = Router();
-
-// Initialize services
 const userService = new UserService();
 const todoService = new TodoService();
 
-// Initialize the controller with the services
 const userController = new UserController(userService, todoService);
 
-// User Routes
 router.get("/users", userController.getAllUsers.bind(userController));
-router.get("/users/:id", userController.getUserById.bind(userController));
-router.post("/users", userController.createUser.bind(userController));
-router.put("/users/:id", userController.updateUser.bind(userController));
-router.patch("/users/:id", userController.patchUser.bind(userController));
-router.delete("/users/:id", userController.deleteUser.bind(userController));
 
-// Todo Routes for a User
-router.get(
-  "/users/:id/todos",
-  userController.getAllTodosByUserId.bind(userController)
-);
-router.get(
-  "/users/:id/todos/:todoId",
-  userController.getTodoByUserId.bind(userController)
-);
+router.get("/users/:id", validateQueryParams, userController.getUserById.bind(userController));
+
+router.post('/users', validateCreateUser, userController.createUser.bind(userController));
+
+router.post('/users/:id', validateQueryParams, validateUpdateUser, userController.updateUser.bind(userController));
+
+router.patch('/users/:id', validateQueryParams, validatePatchUser, userController.patchUser.bind(userController));
+
+router.delete("/users/:id", validateQueryParams, userController.deleteUser.bind(userController));
+
+router.get("/users/:id/todos", validateQueryParams, userController.getAllTodosByUserId.bind(userController));
+
+router.get("/users/:id/todos/:todoId", validateQueryParams, userController.getTodoByUserId.bind(userController));
 
 export default router;

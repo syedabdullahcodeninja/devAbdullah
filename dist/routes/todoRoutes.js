@@ -3,16 +3,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const todoController_1 = require("../controllers/todoController");
 const todoService_1 = require("../services/todoService");
+const validateTodo_1 = require("../middleware/validateTodo");
+const validateQueryParams_1 = require("../middleware/validateQueryParams");
 const router = (0, express_1.Router)();
-// Initialize the service
 const todoService = new todoService_1.TodoService();
-// Initialize the controller with the service
 const todoController = new todoController_1.TodoController(todoService);
-// Todo Routes
 router.get("/todos", todoController.getAllTodos.bind(todoController));
-router.get("/todos/:id", todoController.getTodoById.bind(todoController));
-router.post("/todos", todoController.createTodo.bind(todoController));
-router.put("/todos/:id", todoController.updateTodo.bind(todoController));
-router.patch("/todos/:id", todoController.patchTodo.bind(todoController));
-router.delete("/todos/:id", todoController.deleteTodo.bind(todoController));
+router.get("/todos/:id", validateQueryParams_1.validateQueryParams, todoController.getTodoById.bind(todoController));
+router.post('/todos', validateTodo_1.validateCreateTodo, todoController.createTodo.bind(todoController));
+router.put('/todos/:id', validateQueryParams_1.validateQueryParams, validateTodo_1.validateUpdateTodo, todoController.updateTodo.bind(todoController));
+router.patch('/todos/:id', validateQueryParams_1.validateQueryParams, validateTodo_1.validatePatchTodo, todoController.patchTodo.bind(todoController));
+router.delete("/todos/:id", validateQueryParams_1.validateQueryParams, todoController.deleteTodo.bind(todoController));
 exports.default = router;
