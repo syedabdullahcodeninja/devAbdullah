@@ -16,41 +16,44 @@ function validateCreateUser(req, res, next) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const { name, email, password } = req.body;
-            //  checking email uniqueness
-            // const isEmailUnique = await checkEmailUniqueness(email);
-            // if (!isEmailUnique) {
-            //     return res.status(400).json({ error: 'Email already in use.' });
-            // }
-            console.log('Name:', name); // Log the name to see its value
-            if (!name) {
-                res.status(400).json({ error: 'Name is missing.' });
+            if (!name || typeof name !== "string") {
+                res.status(400).json({ error: "Name is required and must be a string." });
                 return;
             }
-            if (typeof name !== 'string' || name.length < 3) {
-                res.status(400).json({ error: 'Name must be a string with at least 3 characters.' });
+            if (name.length < 3) {
+                res
+                    .status(400)
+                    .json({ error: "Name must be at least 3 characters long." });
                 return;
             }
-            if (!email) {
-                res.status(400).json({ error: 'Email is missing.' });
+            if (!email || typeof email !== "string") {
+                res
+                    .status(400)
+                    .json({ error: "Email is required and must be a string." });
                 return;
             }
-            if (!/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(email)) {
-                res.status(400).json({ error: 'Invalid email format.' });
+            const emailRegex = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
+            if (!emailRegex.test(email)) {
+                res.status(400).json({ error: "Invalid email format." });
                 return;
             }
-            if (!password) {
-                res.status(400).json({ error: 'Password is missing.' });
+            if (!password || typeof password !== "string") {
+                res
+                    .status(400)
+                    .json({ error: "Password is required and must be a string." });
                 return;
             }
             if (password.length < 6) {
-                res.status(400).json({ error: 'Password must be at least 6 characters long.' });
+                res
+                    .status(400)
+                    .json({ error: "Password must be at least 6 characters long." });
                 return;
             }
             next();
         }
         catch (error) {
-            console.error('Validation error:', error);
-            res.status(500).json({ error: 'Internal Server Error' });
+            console.error("Validation error:", error);
+            res.status(500).json({ error: "Internal Server Error" });
         }
     });
 }
@@ -58,27 +61,32 @@ function validateUpdateUser(req, res, next) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const { name, email } = req.body;
-            if (!name) {
-                res.status(400).json({ error: 'Name is missing.' });
+            if (!name || typeof name !== "string") {
+                res.status(400).json({ error: "Name is required and must be a string." });
                 return;
             }
-            if (typeof name !== 'string' || name.length < 3) {
-                res.status(400).json({ error: 'Name must be a string with at least 3 characters.' });
+            if (name.length < 3) {
+                res
+                    .status(400)
+                    .json({ error: "Name must be at least 3 characters long." });
                 return;
             }
-            if (!email) {
-                res.status(400).json({ error: 'Email is missing.' });
+            if (!email || typeof email !== "string") {
+                res
+                    .status(400)
+                    .json({ error: "Email is required and must be a string." });
                 return;
             }
-            if (!/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(email)) {
-                res.status(400).json({ error: 'Invalid email format.' });
+            const emailRegex = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
+            if (!emailRegex.test(email)) {
+                res.status(400).json({ error: "Invalid email format." });
                 return;
             }
             next();
         }
         catch (error) {
-            console.error('Validation error:', error);
-            res.status(500).json({ error: 'Internal Server Error' });
+            console.error("Validation error:", error);
+            res.status(500).json({ error: "Internal Server Error" });
         }
     });
 }
@@ -86,23 +94,42 @@ function validatePatchUser(req, res, next) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const { name, email, password } = req.body;
-            if (typeof name !== 'string' || name.length < 3) {
-                res.status(400).json({ error: 'Name must be a string with at least 3 characters.' });
-                return;
+            if (name !== undefined) {
+                if (typeof name !== "string") {
+                    res.status(400).json({ error: "Name must be a string." });
+                    return;
+                }
+                if (name.length < 3) {
+                    res
+                        .status(400)
+                        .json({ error: "Name must be at least 3 characters long." });
+                    return;
+                }
             }
-            if (!/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(email)) {
-                res.status(400).json({ error: 'Invalid email format.' });
-                return;
+            if (email !== undefined) {
+                const emailRegex = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
+                if (!emailRegex.test(email)) {
+                    res.status(400).json({ error: "Invalid email format." });
+                    return;
+                }
             }
-            if (password.length < 6) {
-                res.status(400).json({ error: 'Password must be at least 6 characters long.' });
-                return;
+            if (password !== undefined) {
+                if (typeof password !== "string") {
+                    res.status(400).json({ error: "Password must be a string." });
+                    return;
+                }
+                if (password.length < 6) {
+                    res
+                        .status(400)
+                        .json({ error: "Password must be at least 6 characters long." });
+                    return;
+                }
             }
             next();
         }
         catch (error) {
-            console.error('Validation error:', error);
-            res.status(500).json({ error: 'Internal Server Error' });
+            console.error("Validation error:", error);
+            res.status(500).json({ error: "Internal Server Error" });
         }
     });
 }

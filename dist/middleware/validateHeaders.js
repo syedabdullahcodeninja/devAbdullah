@@ -14,11 +14,13 @@ function validateHeaders(req, res, next) {
     return __awaiter(this, void 0, void 0, function* () {
         const { authorization } = req.headers;
         if (!authorization) {
-            res.status(400).json({ error: 'Authorization header is missing.' });
+            res.status(400).json({ error: "Authorization header is missing." });
             return;
         }
-        if (!authorization.startsWith('Bearer ')) {
-            res.status(400).json({ error: 'Invalid authorization format. Expected "Bearer [token]".' });
+        if (!authorization.startsWith("Bearer ")) {
+            res.status(400).json({
+                error: 'Invalid authorization format. Expected "Bearer [token]".',
+            });
             return;
         }
         next();
